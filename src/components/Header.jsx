@@ -5,7 +5,10 @@ import SearchIcon from '../assets/images/icons/search-icon.png'
 import MobileLogoWhite from '../assets/images/mobile-logo-white.png'
 import LogoWhite from '../assets/images/logo-white.png'
 
-export function Header(){
+export function Header({cart}){
+  const totalQuantity = cart.reduce((acc,item)=>
+    acc + item.quantity
+  ,0)
   return(
     <div className="header">
       <div className="left-section">
@@ -33,7 +36,7 @@ export function Header(){
 
         <Link className="cart-link header-link .cart-link.active" to="/checkout">
           <img className="cart-icon" src={CartIcon} />
-          <div className="cart-quantity">3</div>
+          <div className="cart-quantity">{totalQuantity}</div>
           <div className="cart-text">Cart</div>
         </Link>
       </div>

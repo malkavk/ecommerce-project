@@ -1,14 +1,27 @@
 import { Header } from '../components/Header';
 import './HomePage.css';
 import CheckMark from '../assets/images/icons/checkmark.png'
-import { products } from '../../starting-code/data/products'
+import { useEffect, useState } from 'react';
+import axios from 'axios';
+import { formatMoney } from '../utils/money';
 
-export function HomePage() {
+export function HomePage({cart}) {
+  const [products, setProducts] = useState([])
+  
+  useEffect(
+    ()=>{
+      axios.get('http://localhost:3000/api/products')
+        .then((response)=>{
+          setProducts(response.data)
+        });
+    },
+    []
+  );
   return (
     <>
       <title>eCommerce Project</title>
       <link rel="icon" href="home-favicon.png" />
-      <Header />
+      <Header cart={cart} />
 
       <div className="home-page">
         <div className="products-grid">
@@ -33,7 +46,7 @@ export function HomePage() {
                 </div>
 
                 <div className="product-price">
-                  ${(product.priceCents/100).toFixed(2)}
+                  {formatMoney(product.priceCents)}
                 </div>
 
                 <div className="product-quantity-container">
