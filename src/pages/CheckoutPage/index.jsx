@@ -14,14 +14,15 @@ export function CheckoutPage({ cart }) {
 
 
   useEffect(() => {
-    axios.get('/api/delivery-options?expand=estimatedDeliveryTime')
-      .then((response) => {
-        setDeliveryOptions(response.data)
-      })
-    axios.get('/api/payment-summary')
-      .then((response) => {
-        setPaymentSummary(response.data)
-      })
+    const getExtraData = async () => {
+      const newDeliveryData = await axios.get('/api/delivery-options?expand=estimatedDeliveryTime');
+      setDeliveryOptions(newDeliveryData.data);
+
+      const newPaymentData = await axios.get('/api/payment-summary');
+      setPaymentSummary(newPaymentData.data)
+    }
+
+    getExtraData();
   }, [])
   return (
     <>

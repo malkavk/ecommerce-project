@@ -1,7 +1,7 @@
 import { Fragment, useEffect, useState } from 'react';
 import { Header } from '../../components/Header';
 import './OrdersPage.css'
-import BuyAgainIcon from '../assets/images/icons/buy-again.png'
+import BuyAgainIcon from '../../assets/images/icons/buy-again.png'
 import axios from 'axios';
 import dayjs from 'dayjs';
 import { formatMoney } from '../../utils/money';
@@ -10,8 +10,13 @@ export function OrdersPage({ cart }) {
   const [orders, setOrders] = useState([]);
 
   useEffect(() => {
-    axios.get('/api/orders?expand=products')
-      .then((response) => { setOrders(response.data) })
+    const getOrdersData = async () => {
+      const newOrdersData = await axios.get('/api/orders?expand=products');
+      setOrders(newOrdersData.data);
+
+    }
+
+    getOrdersData();
   })
   return (
     <>
